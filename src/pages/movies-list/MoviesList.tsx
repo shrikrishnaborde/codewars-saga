@@ -11,6 +11,12 @@ import renderStars from "../../utils/renderStars";
 type SortKey = "title" | "averageRating" | "release_date" | "episode_id";
 type SortDirection = "asc" | "desc";
 
+/**
+ * MoviesList Component
+ *
+ * Displays a searchable, sortable list of movies.
+ * On selecting a movie, details appear in the MovieDetails section.
+ */
 function MoviesList() {
   const dispatch = useDispatch<AppDispatch>();
   const { movies, loading, error } = useSelector(
@@ -24,19 +30,32 @@ function MoviesList() {
   const [sortKey, setSortKey] = useState<SortKey>("title");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
 
+  /**
+   * Fetch movies on component mount.
+   */
   useEffect(() => {
     dispatch(fetchMovies());
   }, [dispatch]);
 
+  /**
+   * Re-filter and re-sort movies when movies, search text,
+   * or sorting preferences change.
+   */
   useEffect(() => {
     searchMovies();
   }, [movies, searchText, sortKey, sortDirection]);
 
-  const searchMovies = () => {
-    const filteredMoviesBySearchText = movies.filter((movie) => {
-      if (movie.title.toLowerCase().indexOf(searchText.toLowerCase()) !== -1)
-        return movie;
-    });
+  /**
+   * Filters and sorts the movie list.
+   * Filters by title using case-insensitive match.
+   * Sorts based on the selected column and direction.
+   *
+   * @returns void
+   */
+  const searchMovies = (): void => {
+    const filteredMoviesBySearchText = movies.filter((movie) =>
+      movie.title.toLowerCase().includes(searchText.toLowerCase())
+    );
 
     const sortedMovies = [...filteredMoviesBySearchText].sort((a, b) => {
       const valA = a[sortKey] as string | number;
@@ -50,7 +69,14 @@ function MoviesList() {
     setFilteredMovies(sortedMovies);
   };
 
-  const sortMovies = (key: SortKey) => {
+  /**
+   * Handles column header click to sort by key.
+   * Toggles between ascending and descending if the same key is clicked.
+   *
+   * @param {SortKey} key - Column key to sort by.
+   * @returns void
+   */
+  const sortMovies = (key: SortKey): void => {
     const isSameKey = key === sortKey;
     const newDirection = isSameKey && sortDirection === "asc" ? "desc" : "asc";
 
@@ -58,14 +84,17 @@ function MoviesList() {
     setSortDirection(newDirection);
   };
 
+  // Handle loading and error states
   if (loading) return <p>Loading Movies...</p>;
   if (error) return <p>Error: {error}</p>;
 
   return (
     <div className="movies">
+      {/* Header with search input */}
       <Header searchMovie={setSearchText} />
 
       <div className="movies-container">
+        {/* Movie list header row with sortable columns */}
         <div className="movies-list flex-table">
           <div className="flex-row header-row">
             <div className="flex-cell" onClick={() => sortMovies("episode_id")}>
@@ -119,6 +148,7 @@ function MoviesList() {
             </div>
           </div>
 
+          {/* Movie rows */}
           {filteredMovies.map((movie) => (
             <div
               key={movie.title}
@@ -139,6 +169,7 @@ function MoviesList() {
           ))}
         </div>
 
+        {/* Movie detail viewer */}
         <MovieDetails movie={selectedMovie} />
       </div>
     </div>

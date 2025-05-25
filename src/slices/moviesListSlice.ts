@@ -1,6 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { Movie, Rating } from "../movieTypes";
 
+/**
+ * Redux state for movies list.
+ */
 interface MoviesListState {
   movies: Movie[];
   loading: boolean;
@@ -13,6 +16,12 @@ const initialState: MoviesListState = {
   error: null,
 };
 
+/**
+ * Async thunk to fetch movies from the Star Wars API and enrich them
+ * with additional ratings from the OMDB API.
+ *
+ * @returns {Promise<Movie[]>} - Array of enriched Movie objects
+ */
 export const fetchMovies = createAsyncThunk<Movie[]>(
   "movies/fetchMovies",
   async () => {
@@ -24,6 +33,7 @@ export const fetchMovies = createAsyncThunk<Movie[]>(
     const moviesWithRatings: Movie[] = await Promise.all(
       data.results.map(async (movie: Movie) => {
         const releaseYear = new Date(movie.release_date).getFullYear();
+
         const omdbUrl = `https://www.omdbapi.com/?apikey=${
           import.meta.env.VITE_OMDB_API_KEY
         }&t=${encodeURIComponent(movie.title)}&y=${releaseYear}`;
@@ -32,6 +42,7 @@ export const fetchMovies = createAsyncThunk<Movie[]>(
           const result = await fetch(omdbUrl);
           const movieData = await result.json();
 
+          // Extract and parse rating values
           const rtRatingData = movieData.Ratings?.find(
             (r: Rating) => r.Source === "Rotten Tomatoes"
           )?.Value;
@@ -42,10 +53,11 @@ export const fetchMovies = createAsyncThunk<Movie[]>(
             (r: Rating) => r.Source === "Metacritic"
           )?.Value;
 
-          const rtRating = parseFloat(rtRatingData);
-          const imdbRating = parseFloat(imdbRatingData) * 10;
-          const metaRating = parseFloat(metaRatingData.split("/")[0]);
+          const rtRating = parseFloat(rtRatingData); // e.g. "93%"
+          const imdbRating = parseFloat(imdbRatingData) * 10; // Convert 8.8 to 88
+          const metaRating = parseFloat(metaRatingData.split("/")[0]); // "80/100" -> 80
 
+          // Return enriched movie object
           return {
             ...movie,
             ratings: {
@@ -58,6 +70,7 @@ export const fetchMovies = createAsyncThunk<Movie[]>(
             poster: movieData.Poster,
           };
         } catch (error) {
+          // Return base movie without ratings if OMDB fails
           return {
             ...movie,
             rating: 0,
@@ -70,6 +83,9 @@ export const fetchMovies = createAsyncThunk<Movie[]>(
   }
 );
 
+/**
+ * Redux slice to manage movie list state and async loading lifecycle.
+ */
 const moviesSlice = createSlice({
   name: "movies",
   initialState,
@@ -81,7 +97,6 @@ const moviesSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchMovies.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.loading = false;
         state.movies = action.payload;
       })
