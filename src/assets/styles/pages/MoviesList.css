@@ -1,0 +1,46 @@
+.movies-list {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #ccc;
+}
+
+.movies-list .flex-row {
+  display: flex;
+  padding: 10px 5px;
+  gap: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.movies-list .body-row:hover {
+  background-color: #f7f7f7; /* light blue */
+  cursor: pointer; /* optional for clickable feel */
+}
+
+.movies-list .flex-row.header-row {
+  font-weight: bold;
+  border-bottom: 2px solid lightgray;
+  cursor: pointer;
+}
+
+.movies-list .flex-cell {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  color: gray;
+}
+
+.movies-list .selected-movie {
+  background-color: #cce7ff; /* darker light blue */
+  font-weight: bold; /* optional */
+}
+
+.movies-list .movie-title {
+  font-weight: bold;
+  flex: 2;
+}
+
+.movies-list .rating {
+  font-weight: bold;
+  flex: 2;
+}

@@ -1,0 +1,26 @@
+.header {
+  height: 32px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  background-color: #f7f7f752;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.header input {
+  width: 100%;
+  box-sizing: border-box;
+  height: 100%;
+  padding: 0 10px;
+  font-size: 16px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  outline: none;
+}
+
+.header .material-icons {
+  color: #c1b3b3;
+}

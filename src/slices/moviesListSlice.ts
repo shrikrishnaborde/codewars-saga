@@ -13,35 +13,6 @@ const initialState: MoviesListState = {
   error: null,
 };
 
-function calculateAverageRating(
-  ratings: { Source: string; Value: string }[]
-): number {
-  const normalizedRatings: number[] = ratings
-    .map((rating) => {
-      const { Value } = rating;
-
-      if (Value.endsWith("%")) {
-        // e.g., "94%" → 94
-        return parseFloat(Value);
-      } else if (Value.includes("/")) {
-        const [scoreStr, maxStr] = Value.split("/");
-        const score = parseFloat(scoreStr);
-        const max = parseFloat(maxStr);
-        if (!isNaN(score) && !isNaN(max)) {
-          return (score / max) * 100;
-        }
-      }
-
-      return NaN;
-    })
-    .filter((r) => !isNaN(r));
-
-  if (normalizedRatings.length === 0) return 0;
-
-  const sum = normalizedRatings.reduce((a, b) => a + b, 0);
-  return +(sum / normalizedRatings.length).toFixed(2); // rounded to 2 decimal places
-}
-
 export const fetchMovies = createAsyncThunk<Movie[]>(
   "movies/fetchMovies",
   async () => {
@@ -77,10 +48,14 @@ export const fetchMovies = createAsyncThunk<Movie[]>(
 
           return {
             ...movie,
-            rtRating,
-            imdbRating,
-            metaRating,
-            rating: Math.floor((rtRating + imdbRating + metaRating) / 3) || 0,
+            ratings: {
+              rtRating,
+              imdbRating,
+              metaRating,
+            },
+            averageRating:
+              Math.floor((rtRating + imdbRating + metaRating) / 3) || 0,
+            poster: movieData.Poster,
           };
         } catch (error) {
           return {

@@ -1,0 +1,11 @@
+.chip {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  background-color: #2196f3; /* Blue */
+  border-radius: 16px;
+  line-height: 1;
+  white-space: nowrap;
+}

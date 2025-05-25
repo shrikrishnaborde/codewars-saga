@@ -5,7 +5,13 @@ export type Movie = {
   episode_id: string;
   producer: string;
   opening_crawl: string;
-  rating?: number;
+  ratings?: {
+    rtRating: number;
+    imdbRating: number;
+    metaRating: number;
+  };
+  averageRating: number;
+  poster: string;
 };
 
 export type Rating = {

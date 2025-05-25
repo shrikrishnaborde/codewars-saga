@@ -5,7 +5,12 @@ type HeaderProps = {
 function Header({ searchMovie }: HeaderProps) {
   return (
     <div className="header">
-      <input type="text" onChange={(e) => searchMovie(e.target.value)} />
+      <span className="material-icons">search</span>
+      <input
+        type="text"
+        onChange={(e) => searchMovie(e.target.value)}
+        placeholder="Type to search.."
+      />
     </div>
   );
 }

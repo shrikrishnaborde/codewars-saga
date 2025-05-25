@@ -1,0 +1,31 @@
+.movie-details {
+  color: gray;
+  padding: 5px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.movie-details .movie-title {
+  font-weight: bold;
+}
+
+.movie-details .movie-info {
+  margin-top: 10px;
+  display: flex;
+  gap: 5px;
+}
+
+.movie-details .movie-poster {
+  height: 200px;
+}
+
+.movie-details .average-rating {
+  display: flex;
+  align-items: center;
+}
+
+.movie-details .ratings {
+  display: flex;
+  gap: 5px;
+}

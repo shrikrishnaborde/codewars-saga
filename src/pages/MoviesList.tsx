@@ -5,8 +5,10 @@ import { fetchMovies } from "../slices/moviesListSlice.ts";
 import type { Movie } from "../movieTypes.ts";
 import MovieDetails from "./MovieDetails.tsx";
 import Header from "../components/Header.tsx";
+import toRoman from "../utils/toRoman.ts";
+import renderStars from "../utils/renderStars.tsx";
 
-type SortKey = "title" | "rating" | "release_date" | "episode_id";
+type SortKey = "title" | "averageRating" | "release_date" | "episode_id";
 type SortDirection = "asc" | "desc";
 
 function MoviesList() {
@@ -56,53 +58,17 @@ function MoviesList() {
     setSortDirection(newDirection);
   };
 
-  const renderStars = (rating: number) => {
-    const fullStars = Math.floor(rating / 10);
-    const halfStars = rating === 100 || rating % 10 === 0 ? 0 : 1;
-    const emptyStars = 10 - fullStars - halfStars;
-
-    return (
-      <>
-        {Array(fullStars)
-          .fill(0)
-          .map((_, i) => (
-            <span
-              key={`full-${i}`}
-              className="material-icons"
-              style={{ color: "#FFD700" }}
-            >
-              star
-            </span>
-          ))}
-
-        {halfStars > 0 && (
-          <span className="material-icons" style={{ color: "#FFD700" }}>
-            star_half
-          </span>
-        )}
-
-        {Array(emptyStars)
-          .fill(0)
-          .map((_, i) => (
-            <span key={`empty-${i}`} className="material-icons">
-              star_border
-            </span>
-          ))}
-      </>
-    );
-  };
-
   if (loading) return <p>Loading Movies...</p>;
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div className="movies-container">
+    <div className="movies">
       <Header searchMovie={setSearchText} />
 
-      <table>
-        <thead>
-          <tr>
-            <th onClick={() => sortMovies("episode_id")}>
+      <div className="movies-container">
+        <div className="movies-list flex-table">
+          <div className="flex-row header-row">
+            <div className="flex-cell" onClick={() => sortMovies("episode_id")}>
               Episode #
               <span className="material-icons">
                 {sortKey === "episode_id"
@@ -111,8 +77,11 @@ function MoviesList() {
                     : "arrow_downward"
                   : "unfold_more"}
               </span>
-            </th>
-            <th onClick={() => sortMovies("title")}>
+            </div>
+            <div
+              className="flex-cell movie-title"
+              onClick={() => sortMovies("title")}
+            >
               Title
               <span className="material-icons">
                 {sortKey === "title"
@@ -121,18 +90,24 @@ function MoviesList() {
                     : "arrow_downward"
                   : "unfold_more"}
               </span>
-            </th>
-            <th onClick={() => sortMovies("rating")}>
+            </div>
+            <div
+              className="flex-cell rating"
+              onClick={() => sortMovies("averageRating")}
+            >
               Rating
               <span className="material-icons">
-                {sortKey === "rating"
+                {sortKey === "averageRating"
                   ? sortDirection === "asc"
                     ? "arrow_upward"
                     : "arrow_downward"
                   : "unfold_more"}
               </span>
-            </th>
-            <th onClick={() => sortMovies("release_date")}>
+            </div>
+            <div
+              className="flex-cell"
+              onClick={() => sortMovies("release_date")}
+            >
               Release Year
               <span className="material-icons">
                 {sortKey === "release_date"
@@ -141,22 +116,31 @@ function MoviesList() {
                     : "arrow_downward"
                   : "unfold_more"}
               </span>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredMovies.map((movie) => (
-            <tr key={movie.title} onClick={() => setSelectedMovie(movie)}>
-              <td>{movie.episode_id}</td>
-              <td>{movie.title}</td>
-              <td>{renderStars(movie.rating ?? 0)}</td>
-              <td>{movie.release_date}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+            </div>
+          </div>
 
-      <MovieDetails movie={selectedMovie} />
+          {filteredMovies.map((movie) => (
+            <div
+              key={movie.title}
+              className={`flex-row body-row ${
+                movie.title === selectedMovie?.title && "selected-movie"
+              }`}
+              onClick={() => setSelectedMovie(movie)}
+            >
+              <div className="flex-cell">EPISODE {movie.episode_id}</div>
+              <div className="flex-cell movie-title">
+                Episode {toRoman(+movie.episode_id)} - {movie.title}
+              </div>
+              <div className="flex-cell rating">
+                {renderStars(movie.averageRating ?? 0)}
+              </div>
+              <div className="flex-cell">{movie.release_date}</div>
+            </div>
+          ))}
+        </div>
+
+        <MovieDetails movie={selectedMovie} />
+      </div>
     </div>
   );
 }
