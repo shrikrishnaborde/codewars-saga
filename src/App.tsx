@@ -1,5 +1,5 @@
 import "./App.css";
-import MoviesList from "./pages/MoviesList";
+import MoviesList from "./pages/movies-list/MoviesList";
 
 function App() {
   return (

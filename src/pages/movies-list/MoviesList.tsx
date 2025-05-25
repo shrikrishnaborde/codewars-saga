@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import type { AppDispatch, RootState } from "../store.ts";
-import { fetchMovies } from "../slices/moviesListSlice.ts";
-import type { Movie } from "../movieTypes.ts";
-import MovieDetails from "./MovieDetails.tsx";
-import Header from "../components/Header.tsx";
-import toRoman from "../utils/toRoman.ts";
-import renderStars from "../utils/renderStars.tsx";
+import type { AppDispatch, RootState } from "../../store";
+import type { Movie } from "../../movieTypes";
+import { fetchMovies } from "../../slices/moviesListSlice";
+import Header from "../../components/Header";
+import MovieDetails from "../movie-details/MovieDetails";
+import toRoman from "../../utils/toRoman";
+import renderStars from "../../utils/renderStars";
 
 type SortKey = "title" | "averageRating" | "release_date" | "episode_id";
 type SortDirection = "asc" | "desc";

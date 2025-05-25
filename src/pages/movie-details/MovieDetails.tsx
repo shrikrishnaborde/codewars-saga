@@ -1,6 +1,6 @@
-import type { Movie } from "../movieTypes";
-import renderStars from "../utils/renderStars";
-import toRoman from "../utils/toRoman";
+import type { Movie } from "../../movieTypes";
+import renderStars from "../../utils/renderStars";
+import toRoman from "../../utils/toRoman";
 
 type MovieDetailsProps = {
   movie: Movie | null;
