@@ -12,8 +12,8 @@
 }
 
 .movies-list .body-row:hover {
-  background-color: #f7f7f7; /* light blue */
-  cursor: pointer; /* optional for clickable feel */
+  background-color: #f7f7f7;
+  cursor: pointer;
 }
 
 .movies-list .flex-row.header-row {
@@ -31,8 +31,8 @@
 }
 
 .movies-list .selected-movie {
-  background-color: #cce7ff; /* darker light blue */
-  font-weight: bold; /* optional */
+  background-color: #cce7ff;
+  font-weight: bold;
 }
 
 .movies-list .movie-title {
