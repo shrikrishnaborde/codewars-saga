@@ -1,54 +1,67 @@
-# React + TypeScript + Vite
+# 🌌 Star Wars Saga – Etraveli Frontend Assignment
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A responsive and modular React + Redux + TypeScript application that displays Star Wars movies using the SWAPI and OMDB APIs. This project was developed as part of the Etraveli Group frontend hiring assessment.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Tech Stack
 
-## Expanding the ESLint configuration
+- **React 19** with TypeScript
+- **Redux Toolkit** for state management
+- **Vite** for fast builds and dev server
+- **CSS (custom)** for responsive styling
+- **Jest + React Testing Library** for unit and integration testing
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## 🧪 APIs Used
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- **[SWAPI - Star Wars API](https://swapi.dev/api/films/)**
+- **[OMDB API](https://www.omdbapi.com/)** – for ratings and poster data
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+## 📦 Features
+
+✅ All Movies List  
+✅ Single Movie Details View  
+✅ Responsive layout (mobile, tablet, desktop)  
+✅ Search by Title  
+✅ Sorting by Title, Episode, Rating, and Release Year  
+✅ Rating stars based on aggregated values  
+✅ Modular folder structure  
+✅ Clean TypeScript typings  
+✅ Fully covered with unit and integration tests  
+✅ Error handling for API failures  
+✅ Cross-browser support
+
+---
+
+## 🧪 Test Coverage
+
+- Tested using **Jest** and **React Testing Library**
+- Unit tests for utility functions
+- Integration tests for:
+  - Searching
+  - Sorting
+  - Movie selection
+  - Redux state mocking
+
+---
+
+## 🛠️ Setup & Run Locally
+
+```bash
+# Clone the repository
+git clone https://github.com/shrikrishnaborde/codewars-saga.git
+cd codewars-saga
+
+# Install dependencies
+npm install
+
+# Run in development
+npm run dev
+
+# Run tests
+npm run test
 ```
